@@ -1,0 +1,145 @@
+/* Shared portfolio panel language: sharp frames, quiet color, readable copy. */
+:root {
+  --folio-navy: #0f1d2b;
+  --folio-surface: #152734;
+  --folio-deep: #091722;
+  --folio-line: #52646d;
+  --folio-purple: #9a8ba9;
+  --folio-amber: #d3b47d;
+  --folio-cyan: #91c2bf;
+  --folio-text: #e5e8df;
+  --folio-muted: #b2c2bf;
+}
+
+.portfolio-backdrop { background: #07131acb; backdrop-filter: none; }
+.portfolio-overlay {
+  width: min(640px, 56vw);
+  background: var(--folio-navy);
+  border-left: 3px solid var(--folio-purple);
+  box-shadow: -6px 0 0 var(--folio-deep), -22px 0 38px #040d16a6;
+  color: var(--folio-text);
+  animation: folio-open 160ms ease-out both;
+}
+.portfolio-overlay-header {
+  padding: 27px 32px 20px;
+  border-bottom: 2px solid #384b59;
+  background: linear-gradient(180deg, #19283a, var(--folio-navy));
+}
+.portfolio-overline, .portfolio-overlay .section-index { color: var(--folio-cyan); }
+.portfolio-overlay-header h1 { margin-top: 12px; line-height: 1.16; }
+.portfolio-overlay-header h1 span { color: var(--folio-purple); }
+.portfolio-overlay-header p { color: var(--folio-muted); line-height: 1.5; }
+.portfolio-overlay-header > button {
+  border: 2px solid #667681;
+  background: #1a2c39;
+  color: var(--folio-text);
+  box-shadow: 3px 3px 0 var(--folio-deep);
+  transition: background-color 120ms, border-color 120ms;
+}
+.portfolio-overlay-header > button:hover { background: #283a4a; border-color: var(--folio-cyan); }
+.portfolio-tabs { gap: 6px; padding: 11px 20px; border-bottom: 2px solid #384b59; background: #101e2c; }
+.portfolio-tabs button { border: 2px solid transparent; color: #becac8; min-height: 42px; transition: background-color 120ms, color 120ms; }
+.portfolio-tabs button span { color: var(--folio-purple); }
+.portfolio-tabs button:hover { background: #213345; color: var(--folio-text); }
+.portfolio-tabs button.active { background: #2c3341; border-color: var(--folio-amber); color: #f1dfbc; }
+.portfolio-tabs button.active span { color: var(--folio-amber); }
+
+.rpg-dialogue {
+  flex: none;
+  position: relative;
+  min-height: 91px;
+  margin: 15px 32px 0;
+  padding: 13px 94px 12px 17px;
+  border: 2px solid #88909a;
+  background: #172b3a;
+  box-shadow: 0 0 0 3px var(--folio-deep), 4px 4px 0 #5d536b;
+}
+.rpg-dialogue-name { display: block; color: var(--folio-amber); font: 9px 'Press Start 2P', monospace; line-height: 1.5; }
+.rpg-dialogue p { min-height: 22px; margin: 9px 0 0; color: var(--folio-text); font-size: 13px; line-height: 1.55; }
+.rpg-dialogue-cursor { display: inline-block; width: 6px; height: 10px; margin-left: 3px; background: var(--folio-amber); vertical-align: -1px; }
+.rpg-dialogue button { position: absolute; right: 12px; bottom: 12px; padding: 7px 8px; border: 1px solid #758f92; background: #19323f; color: var(--folio-cyan); font: 9px 'Space Mono', monospace; }
+.rpg-dialogue button:hover { border-color: var(--folio-cyan); background: #244352; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+.portfolio-scroll { padding: 16px 32px 32px; scrollbar-color: #687785 var(--folio-navy); }
+.portfolio-overlay .content-section { border-bottom-color: #3c5261; animation: folio-section 150ms ease-out both; }
+.portfolio-overlay .section-body h2 { color: #f0eee5; letter-spacing: -0.8px; line-height: 1.2; }
+.portfolio-overlay .section-body > p:not(.empty-state) { color: #c4ceca; line-height: 1.72; }
+.portfolio-overlay .section-body > .section-intro { color: #e0c595; }
+.portfolio-overlay .section-subtitle, .skill-group h3 { color: var(--folio-amber); }
+.portfolio-overlay .info-chips span, .portfolio-overlay .skill-list > span { border: 1px solid #5b6674; background: #1b2b3c; color: #c9d5d0; }
+.portfolio-overlay .empty-state { border: 2px dashed #687281; background: #152638; color: #bcc9c7; padding: 22px; line-height: 1.65; }
+.portfolio-overlay .empty-state::before { content: '◇  '; color: var(--folio-amber); }
+
+.portfolio-overlay .portfolio-card {
+  padding: 21px;
+  border: 2px solid #526575;
+  background: var(--folio-surface);
+  box-shadow: 4px 4px 0 var(--folio-deep);
+  transition: transform 140ms ease-out, border-color 140ms ease-out, box-shadow 140ms ease-out;
+}
+.portfolio-overlay .portfolio-card:hover { transform: translateY(-2px); border-color: #7f8092; box-shadow: 4px 6px 0 var(--folio-deep); }
+.portfolio-card h3 { margin: 13px 0 8px; color: #f1eee2; font-size: 22px; line-height: 1.25; }
+.portfolio-card p { margin: 10px 0; color: #c2cfcb; font-size: 14px; line-height: 1.65; }
+.portfolio-card-image { border: 2px solid #556b73; image-rendering: auto; }
+.card-topline, .achievement-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.card-category, .card-status, .card-featured, .achievement-topline > span:last-child, .achievement-date { font: 9px 'Space Mono', monospace; letter-spacing: .6px; }
+.card-category { color: var(--folio-purple); text-transform: uppercase; }
+.card-status { color: #e0c69a; text-align: right; }
+.card-featured { display: inline-block; margin: 1px 0 8px; color: var(--folio-amber); }
+.portfolio-overlay .project-tags span { padding: 6px 8px; border: 1px solid #6d627a; background: #282839; color: #d6cadb; line-height: 1.4; }
+.portfolio-details { border-top: 1px solid #3c5360; padding-top: 12px; }
+.portfolio-details summary { color: var(--folio-cyan); min-height: 25px; }
+.portfolio-card-links { gap: 10px; }
+.portfolio-card-links a, .achievement-card > a { display: inline-flex; align-items: center; min-height: 36px; padding: 8px 10px; border: 1px solid #688f93; background: #193643; color: #b6dddd; font: 10px 'Space Mono', monospace; transition: background-color 120ms, border-color 120ms; }
+.portfolio-card-links a:hover, .achievement-card > a:hover { border-color: var(--folio-cyan); background: #254651; }
+.portfolio-filter button { border-width: 2px; background: #182d3b; }
+.portfolio-filter button[aria-pressed="true"] { border-color: var(--folio-amber); background: #3a3940; color: #f0d9a3; }
+
+.skill-group { padding: 0 0 18px; border-bottom: 1px solid #3b5260; }
+.skill-group:last-child { border-bottom: 0; }
+.skill-group h3 { margin-bottom: 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.skill-item { min-height: 59px; flex: 1 1 190px; border: 2px solid #536677; background: #182b39; color: var(--folio-text); box-shadow: 3px 3px 0 var(--folio-deep); }
+.skill-list .skill-item > .skill-token { flex: none; display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 2px solid #82738d; background: #302d41; color: #d2c5da; }
+.skill-token-mark { display: block; width: 12px; height: 12px; border: 3px solid currentColor; box-shadow: 3px 3px 0 #776986; }
+.skill-glyph { font-size: 16px; line-height: 1; }
+.skill-token .skill-icon { width: 22px; height: 22px; object-fit: contain; image-rendering: pixelated; }
+.skill-item .skill-name { font-weight: 700; }
+.skill-item small { color: #b5c4c2; padding-left: 39px; }
+
+.achievement-card { position: relative; }
+.achievement-topline { padding-bottom: 13px; border-bottom: 1px solid #455765; }
+.achievement-topline > span:last-child { color: var(--folio-purple); }
+.achievement-emblem { display: grid; place-items: center; width: 44px; height: 44px; border: 2px solid #8c795c; background: #3b3540; color: var(--folio-amber); box-shadow: 3px 3px 0 var(--folio-deep); }
+.achievement-card .portfolio-card-image { margin-top: 16px; }
+.achievement-date { display: inline-block; margin-top: 16px; color: var(--folio-amber); }
+.achievement-card > a { margin-top: 9px; }
+.collection-empty { display: flex; align-items: center; gap: 17px; padding: 20px; border: 2px dashed #687281; background: #172838; color: #c4cfca; }
+.collection-empty .achievement-emblem { flex: none; }
+.collection-empty > div > span { color: var(--folio-purple); font: 9px 'Space Mono', monospace; letter-spacing: .7px; }
+.collection-empty p { margin: 8px 0 0; font-size: 13px; line-height: 1.6; }
+
+.portfolio-overlay .contact-item { border: 2px solid #526575; background: #182b39; box-shadow: 3px 3px 0 var(--folio-deep); color: var(--folio-text); }
+.portfolio-overlay .contact-link { border-color: #668f94; background: #1d3a46; color: var(--folio-cyan); }
+.portfolio-overlay .contact-pending { color: #aab8b6; }
+.portfolio-end { color: #a2b5b1; }
+.portfolio-end span { color: var(--folio-amber); }
+
+@keyframes folio-open { from { opacity: .85; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes folio-section { from { opacity: .7; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 900px) { .portfolio-overlay { width: min(640px, 70vw); } }
+@media (max-width: 620px) {
+  .portfolio-overlay { width: 100%; border-left: 0; }
+  .portfolio-overlay-header { padding: 19px 19px 15px; }
+  .portfolio-tabs { padding: 9px 8px; }
+  .rpg-dialogue { margin: 12px 19px 0; padding-right: 75px; min-height: 84px; }
+  .rpg-dialogue-name { font-size: 8px; }
+  .rpg-dialogue p { font-size: 12px; }
+  .rpg-dialogue button { right: 7px; bottom: 8px; font-size: 8px; }
+  .portfolio-scroll { padding: 14px 19px 25px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-overlay, .portfolio-overlay .content-section { animation: none; }
+  .portfolio-overlay .portfolio-card, .portfolio-tabs button, .portfolio-card-links a, .achievement-card > a, .portfolio-overlay-header > button { transition: none; }
+}

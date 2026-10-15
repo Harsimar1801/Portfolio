@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" shape-rendering="crispEdges" aria-hidden="true">
+  <defs>
+    <g id="pine-far"><rect x="-3" y="-10" width="6" height="28" fill="#172b32"/><path d="M-5 -62H5V-54H13V-44H20V-34H14V-28H24V-18H17V-12H-17V-18H-24V-28H-14V-34H-20V-44H-13V-54H-5Z" fill="#1b3439"/><path d="M-5 -62H1V-54H9V-44H13V-36H4V-28H11V-22H-15V-28H-10V-35H-15V-44H-9V-54H-5Z" fill="#25464a"/></g>
+    <g id="pine-near"><rect x="-4" y="-8" width="8" height="35" fill="#102129"/><path d="M-6 -99H6V-87H14V-75H23V-61H16V-54H29V-41H20V-32H33V-17H-33V-32H-20V-41H-29V-54H-16V-61H-23V-75H-14V-87H-6Z" fill="#112b30"/><path d="M-6 -99H1V-87H9V-75H14V-61H7V-54H19V-41H8V-32H23V-25H-24V-32H-17V-41H-22V-54H-12V-61H-17V-75H-10V-87H-6Z" fill="#1a3b3c"/></g>
+  </defs>
+  <rect width="960" height="540" fill="#101923"/>
+  <rect y="130" width="960" height="230" fill="#151d2d"/>
+  <path d="M0 275H53V261H110V246H165V231H221V220H278V227H322V242H373V253H436V241H493V223H548V209H603V216H651V236H704V251H760V239H812V225H859V241H910V261H960V340H0Z" fill="#272539"/>
+  <path d="M0 307H69V297H128V283H181V275H235V282H296V295H351V287H397V275H442V268H505V276H559V294H615V285H667V271H711V263H763V274H809V289H862V281H917V296H960V382H0Z" fill="#1e2d3a"/>
+  <rect x="740" y="70" width="88" height="88" fill="#72858c"/>
+  <rect x="748" y="62" width="72" height="104" fill="#8b999b"/>
+  <rect x="756" y="54" width="56" height="120" fill="#a8b1a7"/>
+  <rect x="764" y="62" width="40" height="104" fill="#c6c6ad"/>
+  <rect x="772" y="70" width="32" height="88" fill="#d0cfb5"/>
+  <rect x="748" y="62" width="16" height="16" fill="#8b999b"/>
+  <rect x="756" y="134" width="16" height="24" fill="#a8b1a7"/>
+  <rect x="802" y="78" width="18" height="32" fill="#8b999b"/>
+  <rect x="772" y="54" width="16" height="10" fill="#a8b1a7"/>
+  <g fill="#8da6a7"><rect x="92" y="71" width="3" height="3"/><rect x="211" y="125" width="3" height="3"/><rect x="349" y="59" width="3" height="3"/><rect x="464" y="113" width="3" height="3"/><rect x="575" y="83" width="3" height="3"/><rect x="891" y="102" width="3" height="3"/><rect x="652" y="153" width="2" height="2"/><rect x="125" y="184" width="2" height="2"/><rect x="520" y="173" width="2" height="2"/></g>
+  <g fill="#253b41">
+    <rect x="280" y="293" width="54" height="55"/><rect x="295" y="282" width="26" height="11"/><rect x="282" y="285" width="50" height="8"/>
+    <rect x="389" y="277" width="69" height="70"/><rect x="400" y="263" width="48" height="14"/><rect x="406" y="253" width="36" height="10"/>
+    <rect x="513" y="299" width="59" height="52"/><rect x="519" y="291" width="48" height="8"/><rect x="524" y="283" width="37" height="8"/>
+  </g>
+  <g fill="#c4a178"><rect x="301" y="313" width="5" height="7"/><rect x="318" y="313" width="5" height="7"/><rect x="410" y="300" width="6" height="8"/><rect x="431" y="300" width="6" height="8"/><rect x="536" y="320" width="5" height="7"/><rect x="552" y="320" width="5" height="7"/></g>
+  <path d="M0 352H62V343H113V336H166V343H210V355H265V364H330V356H378V349H430V354H482V362H536V354H588V343H639V352H695V365H752V353H806V340H864V349H913V361H960V540H0Z" fill="#172e32"/>
+  <g opacity=".78"><use href="#pine-far" x="46" y="358"/><use href="#pine-far" x="103" y="362"/><use href="#pine-far" x="167" y="375"/><use href="#pine-far" x="235" y="380"/><use href="#pine-far" x="602" y="377"/><use href="#pine-far" x="661" y="369"/><use href="#pine-far" x="714" y="381"/><use href="#pine-far" x="854" y="365"/><use href="#pine-far" x="914" y="374"/></g>
+  <path d="M0 410H114V396H191V405H262V416H353V403H419V408H497V419H573V409H650V395H734V403H813V416H898V404H960V540H0Z" fill="#10262c"/>
+  <path d="M443 408H513V427H539V445H567V466H603V489H644V540H295V491H338V468H369V445H396V427H443Z" fill="#30403e"/>
+  <path d="M463 408H497V428H519V448H545V470H575V492H611V540H328V493H363V470H391V448H418V428H443Z" fill="#4a514b"/>
+  <g fill="#6a6b5f"><rect x="451" y="423" width="34" height="3"/><rect x="430" y="445" width="59" height="3"/><rect x="385" y="478" width="78" height="4"/><rect x="505" y="485" width="42" height="3"/><rect x="347" y="512" width="64" height="4"/><rect x="534" y="514" width="53" height="4"/></g>
+  <g><use href="#pine-near" x="28" y="455"/><use href="#pine-near" x="108" y="469"/><use href="#pine-near" x="193" y="472"/><use href="#pine-near" x="749" y="471"/><use href="#pine-near" x="833" y="465"/><use href="#pine-near" x="933" y="453"/></g>
+  <rect x="0" y="531" width="960" height="9" fill="#0b1a21"/>
+</svg>

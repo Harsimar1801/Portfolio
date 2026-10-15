@@ -1,0 +1,6 @@
+.exhibit-backdrop{position:absolute;inset:0;z-index:70;background:#06101bd4;display:grid;place-items:center;padding:4vh 4vw}
+.exhibit-backdrop .exhibit-panel{width:92vw;height:90dvh;max-height:90dvh;border:3px solid #9b8aad;padding-bottom:0;box-shadow:5px 5px 0 #080f1c}
+.exhibit-copy{white-space:pre-line;font-size:18px;line-height:1.8;color:#d4dfe0;max-width:780px}
+.exhibit-footer{flex:none;padding:12px;text-align:center;color:#c5b18d;font:10px/1.5 monospace;border-top:1px solid #4b5268}
+.room-exit-button{border-color:#b59e80!important;color:#edcf9d!important}
+@media(max-width:620px){.exhibit-backdrop .portfolio-overlay-header{padding:14px}.exhibit-backdrop h1{font-size:24px}.exhibit-copy{font-size:16px}.exhibit-footer{font-size:9px}}

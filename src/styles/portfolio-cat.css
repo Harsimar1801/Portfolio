@@ -1,0 +1,39 @@
+.milo-launcher { position: fixed; z-index: 75; right: max(12px, env(safe-area-inset-right)); bottom: max(6px, env(safe-area-inset-bottom)); width: 48px; height: 48px; border: 1px solid #8c809d; background: #142333; cursor: pointer; }
+.milo-sprite { width: 48px; height: 48px; flex-shrink: 0; image-rendering: pixelated; }
+.milo-launcher .milo-sprite { width: 40px; height: 40px; }
+.milo-tail { transform-origin: 24px 25px; animation: milo-tail 6s steps(2) infinite; }
+.milo-eyes { animation: milo-blink 7s steps(1) infinite; }
+.milo-bubble { position: absolute; bottom: 55px; right: 0; width: 166px; padding: 10px; color: #dfd6bf; background: #152535; border: 1px solid #92829d; font: 11px/1.5 'Space Mono', monospace; opacity: 0; pointer-events: none; animation: milo-hint 25s infinite; }
+.milo-launcher:focus-visible { outline: 3px solid #e2c087; outline-offset: 2px; }
+.milo-launcher:focus-visible .milo-bubble { opacity: 1; animation: none; }
+.game-hud-controls { padding-right: 54px; }
+.portfolio-overlay { padding-bottom: 54px; }
+.archive-backdrop .portfolio-overlay { padding-bottom: 0; }
+.milo-backdrop { position: fixed; inset: 0; z-index: 90; background: #07111d66; color-scheme: dark; }
+.milo-panel { position: absolute; right: 16px; bottom: 65px; display: flex; flex-direction: column; width: min(410px, calc(100vw - 32px)); height: min(650px, calc(100dvh - 155px)); min-height: 0; border: 2px solid #9786aa; box-shadow: 4px 4px 0 #080f1b; background: #101e2f; color: #d6e0e4; font: 14px/1.6 'DM Sans', sans-serif; }
+.milo-panel header { display: flex; align-items: center; gap: 8px; padding: 12px; border-bottom: 1px solid #46546b; }
+.milo-panel h2 { font: bold 14px/1.5 'Space Mono', monospace; margin: 0; color: #e5ce9e; }
+.milo-panel small { font: 8px/1.5 monospace; color: #a2bcc3; }
+.milo-panel button { min-height: 40px; border: 1px solid #61768a; background: #203345; color: #d8e6e6; cursor: pointer; font: 11px/1.5 'Space Mono', monospace; padding: 8px; }
+.milo-panel button:disabled { opacity: .5; cursor: default; }
+.milo-panel header > button { margin-left: auto; min-width: 40px; font-size: 24px; }
+.milo-log { overflow-y: auto; flex: 1; min-height: 0; padding: 14px; scrollbar-color: #647288 #101e2f; overscroll-behavior: contain; }
+.milo-message { padding: 12px; background: #192b3c; border-left: 2px solid #a194b4; margin-bottom: 12px; overflow-wrap: anywhere; }
+.milo-message.visitor { margin-left: 22px; border-color: #8db8b8; background: #20343e; }
+.milo-message strong { font: 10px monospace; color: #c8bbdd; }
+.milo-message p { margin: 5px 0 10px; white-space: pre-line; }
+.milo-message a { display: block; color: #a2d5d0; padding: 8px 0; }
+.milo-typing { color: #c7b58f; font-size: 12px; }
+.milo-suggestions { display: flex; gap: 6px; overflow-x: auto; padding: 8px 12px; flex-shrink: 0; scrollbar-width: thin; }
+.milo-suggestions button { flex: 0 0 auto; max-width: 230px; }
+.milo-panel form { padding: 10px 12px 12px; border-top: 1px solid #46546b; }
+.milo-input-label { display: block; font: 10px monospace; color: #b6c6d5; margin-bottom: 6px; }
+.milo-panel form > div { display: flex; gap: 8px; }
+.milo-panel textarea { flex: 1; min-width: 0; resize: none; padding: 10px; color: #f1e9d9; border: 1px solid #6a7d91; background: #0a1726; font: 16px/1.4 sans-serif; }
+.milo-panel :focus-visible { outline: 2px solid #e3bd78; outline-offset: 2px; }
+@keyframes milo-tail { 0%,80%,100% { transform: rotate(0); } 85%,95% { transform: rotate(-12deg); } }
+@keyframes milo-blink { 0%,94%,98%,100% { opacity: 1; } 95%,97% { opacity: 0; } }
+@keyframes milo-hint { 0%,78%,100% { opacity: 0; } 82%,96% { opacity: 1; } }
+@media (max-width: 620px) { .milo-panel { bottom: 65px; right: 10px; width: calc(100vw - 20px); height: calc(100dvh - 140px); } .milo-panel header { padding: 8px; } .milo-panel h2 { font-size: 12px; } .milo-bubble { display: none; } .game-hud-bottom { padding-right: 64px; } }
+@media (max-height: 500px) { .milo-panel { inset: 8px 70px 8px auto; width: min(560px, calc(100vw - 80px)); height: auto; } .milo-panel .milo-sprite { width: 32px; height: 32px; } .milo-panel header { padding: 4px 10px; } }
+@media (prefers-reduced-motion: reduce) { .milo-tail, .milo-eyes, .milo-bubble { animation: none; } }

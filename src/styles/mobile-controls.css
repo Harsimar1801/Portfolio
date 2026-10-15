@@ -1,0 +1,63 @@
+.game-page { overscroll-behavior: none; }
+.game-page > .game-canvas, .game-page > .game-canvas canvas { touch-action: none; }
+.touch-controls { display: none; position: absolute; z-index: 28; left: 0; right: 0; bottom: calc(66px + env(safe-area-inset-bottom)); align-items: flex-end; justify-content: space-between; padding: 0 calc(14px + env(safe-area-inset-right)) 0 calc(14px + env(safe-area-inset-left)); pointer-events: none; touch-action: none; }
+.touch-controls.is-disabled { visibility: hidden; pointer-events: none; }
+.touch-controls button { pointer-events: auto; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+.touch-dpad { display: grid; grid-template-columns: repeat(3, 50px); grid-template-rows: repeat(3, 50px); gap: 2px; }
+.touch-direction { border: 2px solid #849b9b; background: #142d38e8; color: #dce8dd; box-shadow: 3px 3px 0 #091b25; font: 19px 'Space Mono', monospace; }
+.touch-direction:active, .touch-direction:focus-visible { border-color: #d7bd86; background: #334850; color: #f1e1b9; }
+.touch-up { grid-column: 2; grid-row: 1; }
+.touch-left { grid-column: 1; grid-row: 2; }
+.touch-right { grid-column: 3; grid-row: 2; }
+.touch-down { grid-column: 2; grid-row: 3; }
+.touch-interact { width: 86px; height: 86px; margin-bottom: 31px; border: 3px solid #d0ad77; background: #303a42ed; color: #f0e1bc; box-shadow: 4px 4px 0 #0b1b25; font: 10px 'Space Mono', monospace; letter-spacing: .3px; }
+.touch-interact span { display: block; margin-top: 6px; color: #accfca; font-size: 13px; }
+.touch-interact:active, .touch-interact:focus-visible { background: #4b4a4b; border-color: #f0d59a; }
+
+.portfolio-scroll, .town-tool-panel, .title-content { touch-action: pan-y; }
+.portfolio-tabs { touch-action: pan-x; }
+.portfolio-tabs button { min-height: 48px; }
+.portfolio-overlay-header > button, .portfolio-filter button, .portfolio-card-links a, .achievement-card > a, .portfolio-details summary, .rpg-dialogue button { min-height: 44px; }
+.town-tool-heading button, .town-tool-list button, .town-map-key button { min-height: 44px; }
+.town-map-marker { width: 44px; height: 44px; }
+
+@media (pointer: coarse), (max-width: 620px), (max-width: 950px) and (max-height: 500px) {
+  .touch-controls { display: flex; }
+}
+@media (max-width: 620px) {
+  .game-hud-top { min-height: 0; padding: 7px 9px; }
+  .game-header-actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .game-header-actions button { min-height: 44px; font-size: 10px; }
+  .town-tool-panel { top: 109px; max-height: calc(100dvh - 174px); }
+  .portfolio-tabs button { font-size: 11px; }
+  .portfolio-scroll { -webkit-overflow-scrolling: touch; }
+  .portfolio-overlay .section-body > p:not(.empty-state) { font-size: 15px; }
+  .portfolio-overlay .empty-state { font-size: 13px; }
+  .portfolio-overlay .contact-item { min-height: 52px; font-size: 12px; }
+}
+@media (pointer: coarse) and (min-width: 621px) and (max-width: 950px), (min-width: 621px) and (max-width: 950px) and (max-height: 500px) {
+  .game-hud-top { display: block; min-height: 0; padding: 7px 12px; }
+  .game-hud-brand { display: none; }
+  .game-hud .desktop-label { display: none; }
+  .game-hud .mobile-label { display: inline; }
+  .game-header-actions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 5px; }
+  .game-header-actions button { min-height: 44px; font-size: 10px; }
+  .town-tool-panel { top: 64px; max-height: calc(100dvh - 125px); }
+}
+@media (max-height: 420px) {
+  .touch-controls { bottom: calc(54px + env(safe-area-inset-bottom)); }
+  .touch-dpad { grid-template-columns: repeat(3, 44px); grid-template-rows: repeat(3, 44px); }
+  .touch-interact { width: 78px; height: 78px; margin-bottom: 26px; }
+}
+@media (max-height: 420px) and (orientation: landscape) {
+  .title-content { padding: 27px 12px 24px; }
+  .title-prelude, .title-hint, .title-bottomline { display: none; }
+  .title-content h1 { font-size: clamp(22px, 5vw, 35px); }
+  .title-subtitle { margin-top: 8px; font-size: 8px; }
+  .title-rule { margin: 8px 0; }
+  .title-menu { width: min(340px, 100%); gap: 2px; padding: 6px; }
+  .title-menu button { min-height: 44px; font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .touch-controls button { transition: none; }
+}

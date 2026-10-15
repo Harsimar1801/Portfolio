@@ -1,0 +1,27 @@
+.boot-intro{position:fixed;inset:0;z-index:100;overflow:hidden;background:#10182f;color:#f1e9d4;isolation:isolate;opacity:1;transition:opacity 450ms ease}
+.boot-intro.is-leaving{opacity:0;pointer-events:none}
+.boot-landscape{position:absolute;left:50%;top:50%;width:max(100vw,177.778dvh);height:max(100dvh,56.25vw);transform:translate(-50%,-50%);image-rendering:pixelated;z-index:-3}
+.boot-atmosphere{position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% 37%,transparent 15%,#080f2380 90%),linear-gradient(0deg,#07122077,transparent 40%)}
+.boot-atmosphere::after{content:'';position:absolute;left:-10%;right:-10%;top:65%;height:18%;background:linear-gradient(transparent,#8295b51a,transparent);animation:boot-mist 18s ease-in-out infinite alternate}
+.boot-brand{position:absolute;top:26%;left:50%;transform:translateX(-50%);text-align:center;width:min(1000px,94vw)}
+.boot-kicker{font:10px/1.7 'Space Mono',monospace;letter-spacing:3px;color:#bbbed5}
+.boot-brand h1{font:clamp(25px,4.8vw,76px)/1.5 'Press Start 2P',monospace;letter-spacing:-2px;margin:25px 0 12px;white-space:nowrap;text-shadow:3px 0 #567987,-3px 0 #665580,0 6px #172136,0 10px #0c162c;animation:boot-reveal 850ms steps(12) both}
+.boot-brand h1 span{color:#c1c5e1}
+.boot-subtitle{font:clamp(9px,1.25vw,18px)/1.8 'Press Start 2P',monospace;color:#d9b98a;letter-spacing:3px}
+.boot-rule{color:#8bacb9;font-size:12px;margin:25px auto;display:flex;align-items:center;justify-content:center;gap:16px}
+.boot-rule::before,.boot-rule::after{content:'';width:65px;height:2px;background:#65748d}
+.boot-track{width:min(290px,68vw);height:16px;margin:auto;padding:3px;border:2px solid #8194ac;background:#0a162c;box-shadow:0 3px #070d1b;overflow:hidden}
+.boot-track span{display:block;height:100%;width:28%;background:repeating-linear-gradient(90deg,#91bdc6 0 8px,transparent 8px 11px);animation:boot-load 1.2s steps(12) infinite alternate}
+.boot-track.complete span{width:100%;animation:none;background:repeating-linear-gradient(90deg,transparent 0 8px,#0a162c 8px 11px),linear-gradient(90deg,#8fc9ca,#a393c4)}
+.boot-status{font:10px/1.8 'Space Mono',monospace;letter-spacing:2px;color:#c5d6db;margin-top:14px}.is-ready .boot-status{color:#eed3a1}
+.boot-edge{position:absolute;left:4%;right:4%;display:flex;justify-content:space-between;gap:15px;font:9px/1.6 'Space Mono',monospace;letter-spacing:2px;color:#a4b4c8}.boot-top{top:28px}.boot-bottom{bottom:26px}
+.boot-stars{position:absolute;left:18%;top:19%;color:#acced7;font:16px monospace;text-shadow:52vw -6vh #889ab4,65vw 11vh #b5adcb;animation:boot-twinkle 4s steps(3) infinite}
+.boot-meteor{position:absolute;left:66%;top:15%;width:4px;height:4px;background:#d0dfdf;box-shadow:4px -4px #879eae,8px -8px #596980,12px -12px #36435b;animation:boot-meteor 9s steps(30) infinite;opacity:0}
+@keyframes boot-reveal{from{clip-path:inset(0 100% 0 0);opacity:0}to{clip-path:inset(0);opacity:1}}
+.boot-track.boot-sequence span{width:100%;transform-origin:left;animation:boot-sequence 6.55s steps(26,end) both;background:repeating-linear-gradient(90deg,transparent 0 8px,#0a162c 8px 11px),linear-gradient(90deg,#8fc9ca,#a393c4)}
+.boot-sequence-label{font:8px/1.5 'Space Mono',monospace;letter-spacing:2px;color:#97a8bf;margin:10px 0 0}
+@keyframes boot-sequence{0%{clip-path:inset(0 100% 0 0)}25%{clip-path:inset(0 74% 0 0)}45%{clip-path:inset(0 58% 0 0)}70%{clip-path:inset(0 24% 0 0)}90%{clip-path:inset(0 8% 0 0)}100%{clip-path:inset(0)}}
+@keyframes boot-load{to{transform:translateX(255%)}}@keyframes boot-mist{to{transform:translateX(6%);opacity:.55}}@keyframes boot-twinkle{50%{opacity:.35}}@keyframes boot-meteor{0%,70%,100%{opacity:0}72%{opacity:1;transform:translate(0,0)}88%{opacity:0;transform:translate(-150px,100px)}}
+@media(max-width:600px){.boot-brand{top:30%}.boot-brand h1{font-size:clamp(18px,5.4vw,32px);letter-spacing:-1px}.boot-kicker{font-size:8px;letter-spacing:1px}.boot-subtitle{letter-spacing:1px;font-size:9px}.boot-edge{font-size:8px;letter-spacing:1px}.boot-edge span:last-child{display:none}}
+@media(max-height:500px){.boot-brand{top:15%}.boot-brand h1{font-size:30px;margin:12px 0}.boot-rule{margin:12px}.boot-kicker{display:none}}
+@media(prefers-reduced-motion:reduce){.boot-intro,.boot-intro *{animation:none!important;transition:none!important}.boot-meteor{display:none}}

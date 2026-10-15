@@ -1,0 +1,16 @@
+/* HUD rows reserve real space; Phaser renders only in the middle row. */
+.music-controls { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; position: relative; grid-column: span 2; color: #bed0d6; font: 11px monospace; }
+.music-controls label { display: flex; align-items: center; gap: 5px; }
+.music-controls input { width: 70px; height: 44px; margin: 0; accent-color: #c8b17f; touch-action: pan-y; }
+.music-controls output { min-width: 34px; font-size: 10px; }
+.music-controls audio { display: none; }
+.music-error { flex-basis: 100%; color: #e3c28e; font-size: 10px; }
+.game-page { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+.game-page > .game-canvas { position: relative; inset: auto; grid-row: 2; min-width: 0; min-height: 0; background: #111f27; }
+.game-page > .game-hud-top { position: relative; grid-row: 1; background: #0d1c29; border-bottom: 1px solid #445267; }
+.game-page > .game-hud-bottom { position: relative; grid-row: 3; background: #0d1c29; border-top: 1px solid #445267; }
+@media (min-width: 951px) {
+  .game-header-actions button { font-size: 11px; min-height: 44px; }
+  .game-hud-bottom { font-size: 11px; }
+  .game-hud-brand > span { font-size: 10px; }
+}
