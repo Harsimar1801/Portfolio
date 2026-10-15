@@ -1,4 +1,14 @@
-import { BUILDINGS, INTERACTION_RANGE, SOLIDS, WORLD } from './townMap.js'
+import { BUILDINGS, INTERACTION_RANGE, SOLIDS, WORLD, MOVEMENT_SPEED, RESUME_POINT } from './townMap.js'
+
+export function movementVector(input, delta, interior = false) {
+  const x = Number(Boolean(input.right)) - Number(Boolean(input.left))
+  const y = Number(Boolean(input.down)) - Number(Boolean(input.up))
+  const length = Math.hypot(x,y) || 1
+  const distance = Math.min(delta,32) * MOVEMENT_SPEED[interior ? 'interior' : 'town'] / 1000
+  return { dx: x / length * distance, dy: y / length * distance }
+}
+export function isTextEntry(target) { return Boolean(target?.closest?.('input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"]')) }
+export function nearResume(player) { return Math.hypot(player.x-RESUME_POINT.x,player.y-RESUME_POINT.y) < 42 }
 
 const FOOT_HALF_WIDTH = 6
 const FOOT_HALF_HEIGHT = 4

@@ -301,6 +301,7 @@ try {
   assert.equal(mounts, 1, 'Game canvas mounts only once across all panels')
   const { roomExhibits } = await vite.ssrLoadModule('/src/game/interiors.js')
   const inspectionFixtures = [
+    (await vite.ssrLoadModule('/src/data/resume.js')).resumeExhibit(),
     ...roomExhibits('projects', { projects: testProjects }),
     ...roomExhibits('skills', { skills: [{ id: 'qa-room-skill', name: 'Test technology', category: 'Test category', description: 'Test description' }] }),
     ...roomExhibits('achievements', { achievements: [{ id: 'qa-room-award', title: 'Test certificate', description: 'Test only' }] }),

@@ -12,6 +12,6 @@ export default function ExhibitInspection({ exhibit, onClose }) {
     {exhibit.type==='project' ? <ProjectArchive projects={[exhibit.project]}/> : <div className="portfolio-scroll">
       {exhibit.type==='skills' ? <SkillGroups skills={exhibit.skills}/> : exhibit.type==='achievement' ? <AchievementList achievements={[exhibit.achievement]}/> : <><p className="exhibit-copy">{exhibit.text}</p><div className="archive-links">{exhibit.links?.map((link)=><a key={link.label} href={link.url} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</div>{exhibit.links?.length===0&&<p>Contact links haven’t been added yet.</p>}</>}
     </div>}
-    <footer className="exhibit-footer">ESC / CLOSE · RETURN TO YOUR PLACE IN THE ROOM</footer>
+    <footer className="exhibit-footer">ESC / CLOSE · RETURN TO YOUR PLACE</footer>
   </section></div>
 }

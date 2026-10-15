@@ -1,6 +1,16 @@
 // Authored town layout. All coordinates are world pixels; one ground tile is 16px.
 export const WORLD = { width: 672, height: 512, tile: 16 }
 export const PLAYER_START = { x: 336, y: 336 }
+export const MOVEMENT_SPEED = { town: 110, interior: 143 } // world pixels / second
+// One connected road network; building spurs share the main road's 32px width.
+export const PATHS = [
+  [264,144,32,336], [96,200,448,32], [32,240,624,32],
+  [144,320,368,32], [144,320,32,160], [440,320,32,160],
+  [320,296,32,56], [96,448,416,32],
+  [96,144,32,88], [456,160,32,72],
+  [384,216,32,136],
+]
+export function isRoadAt(x, y) { return PATHS.some(([px,py,w,h]) => x >= px && x < px+w && y >= py && y < py+h) }
 export const INTERACTION_RANGE = 42
 export const CRYSTAL_PICKUP_RANGE = 13
 
@@ -31,7 +41,7 @@ export const TREES = [
 ].map(([x, y]) => ({ x, y }))
 
 export const FENCES = [
-  { x: 47, y: 180, w: 105, h: 7 }, { x: 169, y: 180, w: 28, h: 7 },
+  { x: 47, y: 180, w: 45, h: 7 }, { x: 132, y: 180, w: 65, h: 7 },
   { x: 217, y: 180, w: 41, h: 7 }, { x: 313, y: 180, w: 51, h: 7 },
   { x: 406, y: 193, w: 36, h: 7 }, { x: 498, y: 193, w: 53, h: 7 },
   { x: 34, y: 350, w: 7, h: 105 }, { x: 550, y: 353, w: 7, h: 92 },
@@ -39,6 +49,7 @@ export const FENCES = [
 
 export const RIVER = { x: 590, w: 48, bridgeTop: 232, bridgeBottom: 280 }
 export const LANDMARK = { x: 300, y: 237, w: 72, h: 66 }
+export const RESUME_POINT = { x: LANDMARK.x + LANDMARK.w / 2, y: LANDMARK.y + LANDMARK.h + 12 }
 
 export const SOLIDS = [
   ...BUILDINGS.map(({ x, y, w, h }) => ({ x, y, w, h })),

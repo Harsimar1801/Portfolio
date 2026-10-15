@@ -1,4 +1,5 @@
-import { BUILDINGS, FENCES, LANDMARK, RIVER, TREES, WORLD } from './townMap.js'
+import { drawPlayer } from './playerArt.js'
+import { BUILDINGS, FENCES, LANDMARK, RIVER, TREES, WORLD, PATHS, isRoadAt } from './townMap.js'
 
 // Original artwork, authored in logical pixels. The atlas is shared by all town sprites.
 // Terrain variation is deterministic decoration of the existing map, not world generation.
@@ -216,7 +217,7 @@ export function createTownAtlas(scene) {
     p([[18,22],[40,2],[62,22]],INK); p([[22,20],[40,6],[58,20]],'#927b9d'); r(20,22,40,4,'#c8b18b')
     r(32,29,17,18,'#3e425b'); r(34,30,13,15,'#ecd39c'); r(40,32,1,7,'#5c5266'); r(40,38,5,1,'#5c5266')
     r(37,49,7,9,'#403b55'); r(39,51,3,5,'#d1ab6f')
-    r(3,65,74,13,INK); r(4,65,72,1,'#b69f82'); text('CLOCK PLAZA',7,68,'#f0d8ab')
+    r(3,65,74,13,INK); r(4,65,72,1,'#b69f82'); text('RESUME',22,68,'#f0d8ab')
   })
   for (const b of BUILDINGS) {
     frame(`building-${b.id}`,b.w + 24,b.h + 42,(p) => buildingArt(p,b))
@@ -227,23 +228,11 @@ export function createTownAtlas(scene) {
       r(2,1,w - 4,12,'#26314a'); text(b.name,6,4,'#fff1d2')
     })
   }
-  for (const direction of ['down','up','left','right']) for (let step = 0; step < 2; step++) frame(`player-${direction}-${step}`,24,34,({rect:r,oval}) => {
-    oval(3,27,19,5,'#13213699')
-    r(6,24 + step,5,6 - step,INK); r(14,24,5,6,INK); r(6,29,6,2,'#b9aba7'); r(14,29 - step,6,2,'#b9aba7')
-    r(5,15,15,11,INK); r(7,16,11,9,'#617da3'); r(7,17,4,7,'#9db8cb'); r(6,24,13,2,'#394764')
-    r(3,18 + step,3,7,'#c5977f'); r(19,18 - step,3,7,'#c5977f')
-    r(6,6,13,11,INK); r(7,7,11,9,'#d6a98a'); r(8,8,4,5,'#edc29d')
-    r(5,4,15,6,'#263045'); r(7,2,11,3,'#33415b'); r(6,5,7,2,'#52607a'); r(5,9,3,4,'#263045')
-    if (direction === 'down') { r(9,11,2,2,INK); r(15,11,2,2,INK); r(11,15,3,1,'#a67569') }
-    if (direction === 'left') { r(7,11,2,2,INK); r(5,12,2,2,'#d6a98a') }
-    if (direction === 'right') { r(16,11,2,2,INK); r(18,12,2,2,'#d6a98a') }
-    if (direction === 'up') { r(7,8,11,6,'#263045'); r(8,17,9,8,'#946f66'); r(9,18,7,2,'#c29a79') }
-    else { r(17,18,4,7,'#bb8b65'); r(18,19,2,3,'#e2b77f') }
-  })
+  for (const direction of ['down','up','left','right']) for (let step = 0; step < 2; step++) {
+    frame(`player-${direction}-${step}`,24,34,(painter) => drawPlayer(painter,direction,step))
+  }
   atlas.refresh()
 }
-
-const PATHS = [[262,155,34,331],[102,199,438,34],[32,242,606,32],[133,315,383,30],[144,334,32,127],[440,334,32,127],[321,303,30,42],[100,461,423,24],[100,144,24,57],[268,144,24,55],[460,160,24,39]]
 
 export function drawTown(scene) {
   createTownAtlas(scene)
@@ -260,7 +249,11 @@ export function drawTown(scene) {
   }
   const borders = scene.add.graphics().setDepth(-90)
   PATHS.forEach(([x,y,w,h]) => { borders.fillStyle(0x203b3c).fillRect(x - 3,y - 3,w + 6,h + 6); borders.fillStyle(0x7c7b74).fillRect(x - 1,y - 1,w + 2,h + 2) })
-  PATHS.forEach(([x,y,w,h]) => scene.add.tileSprite(x,y,w,h,TOWN_ATLAS,'path').setOrigin(0).setDepth(-89))
+  // Tile the union once on a shared world grid: intersections have no internal
+  // borders or restarted texture phases, including partial strips at the edges.
+  for (let y=0;y<WORLD.height;y+=8) for(let x=0;x<WORLD.width;x+=8) {
+    if (isRoadAt(x,y)) scene.add.tileSprite(x,y,8,8,TOWN_ATLAS,'path').setOrigin(0).setTilePosition(x,y).setDepth(-89)
+  }
   // Animated river is made of repeating tiles; the bridge remains independently drawn.
   const banks = scene.add.graphics().setDepth(-80)
   banks.fillStyle(0x172b43).fillRect(RIVER.x - 5,0,RIVER.w + 10,WORLD.height)
@@ -299,12 +292,12 @@ export function drawTown(scene) {
   gardens.forEach(([x,y],i) => sprite(x,y,`flowers-${i % 3}`,y))
   for (const [x,y] of [[113,246],[215,308],[413,310],[548,235],[260,477],[490,477]]) sprite(x - 16,y - 36,'lantern',y + 4)
   sprite(LANDMARK.x - 4,LANDMARK.y - 7,'clock',LANDMARK.y + LANDMARK.h)
-  BUILDINGS.forEach((b) => sprite(b.x - 12,b.y - 30,`building-${b.id}`,b.y + b.h))
+  const buildings = BUILDINGS.map((b) => ({ building: b, sprite: sprite(b.x - 12,b.y - 30,`building-${b.id}`,b.y + b.h) }))
   const signs = BUILDINGS.map((b) => {
     const width = b.name.length * 6 + 11
     return { building: b, homeX: Math.round(b.x + (b.w - width) / 2), homeY: b.y + 30, sprite: sprite(0,0,`sign-${b.id}`,10000) }
   })
-  return { water, signs }
+  return { water, signs, buildings }
 }
 
 // Keep labels on visible façades clear of the React HUD without moving the camera.

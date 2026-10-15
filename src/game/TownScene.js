@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import { BUILDINGS, CRYSTALS, PLAYER_START, WORLD } from './townMap.js'
-import { movePlayer, nearbyBuilding } from './movement.js'
+import { movePlayer, nearbyBuilding, movementVector, isTextEntry, nearResume } from './movement.js'
+import { resumeExhibit } from '../data/resume.js'
 import { nearbyCrystal } from './collectibles.js'
 import { cameraViewport } from './viewport.js'
 import { drawTown, placeTownSigns, TOWN_ATLAS } from './townArt.js'
@@ -22,15 +23,22 @@ export function createTownScene(onNavigate, onPrompt = () => {}, isPaused = () =
       const art = drawTown(this)
       this.water = art.water
       this.signs = art.signs
+      this.buildingSprites = art.buildings
       this.motionQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)')
       const updateMotion = () => { this.reducedMotion = this.motionQuery?.matches ?? false }
       updateMotion()
       this.motionQuery?.addEventListener('change', updateMotion)
       this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.motionQuery?.removeEventListener('change', updateMotion))
-      BUILDINGS.forEach((b) => {
-        this.add.zone(b.x + b.w / 2, b.y + b.h - 10, b.w, b.h + 30).setInteractive({ useHandCursor: true }).on('pointerdown', () => {
-          if (nearbyBuilding(this.player)?.id === b.id) this.interact()
-          else this.showMessage('WALK TO THE DOOR TO EXPLORE')
+      this.buildingSprites.forEach(({ building, sprite }) => {
+        // Atlas-alpha hit testing follows roof, chimney, walls and foundation,
+        // excluding transparent padding and the translucent cast shadow.
+        sprite.setInteractive({ pixelPerfect: true, alphaTolerance: 200, useHandCursor: true })
+        sprite.on('pointerover', () => {
+          if (!this.room && !isPaused()) sprite.setTint(0xe0ebff)
+        })
+        sprite.on('pointerout', () => sprite.clearTint())
+        sprite.on('pointerdown', (pointer) => {
+          if (pointer.button === 0 && !this.room && !isPaused()) this.enterRoom(building.id)
         })
       })
       this.drawCrystals()
@@ -52,10 +60,31 @@ export function createTownScene(onNavigate, onPrompt = () => {}, isPaused = () =
       this.input.keyboard.on('keydown-E', (event) => { if (!event.repeat) this.interact() })
       this.input.keyboard.on('keydown-SPACE', (event) => { if (!event.repeat) this.interact() })
       this.input.keyboard.on('keydown-ESC', (event) => { if (!event.repeat && !isPaused()) this.exitRoom() })
+      this.input.keyboard.on('keydown-R', (event) => {
+        if (!event.repeat && !event.ctrlKey && !event.metaKey && !event.altKey && !isPaused() && !isTextEntry(event.target) && !isTextEntry(document.activeElement)) this.returnToSpawn()
+      })
+    }
+
+    returnToSpawn() {
+      if (isPaused()) return
+      if (this.room) this.exitRoom()
+      this.player = { ...PLAYER_START }
+      this.townPosition = null
+      this.input.keyboard.resetKeys()
+      const virtual = getVirtualInput()
+      for (const direction of ['up','down','left','right']) virtual[direction] = false
+      this.facing = 'down'
+      this.avatar.setPosition(this.player.x,this.player.y)
+      this.drawAvatar()
+      this.messageTimer?.remove(); this.messageTimer = null
+      this.handleResize(this.scale.gameSize)
+      this.refreshPrompt()
     }
 
     enterRoom(section) {
-      if (this.room) return
+      if (this.room || isPaused()) return
+      this.buildingSprites.forEach(({sprite}) => sprite.clearTint())
+      for (const direction of ['up','down','left','right']) getVirtualInput()[direction] = false
       this.townPosition = { ...this.player }
       this.townObjects = this.children.list.filter((object) => object !== this.avatar).map((object) => ({ object, visible: object.visible }))
       this.townObjects.forEach(({ object }) => object.setVisible(false))
@@ -132,7 +161,7 @@ export function createTownScene(onNavigate, onPrompt = () => {}, isPaused = () =
         return
       }
       const nearby = nearbyBuilding(this.player)
-      this.setPrompt(nearby ? `E / TAP INTERACT  ·  ${nearby.name}` : 'MOVE · WASD / ARROWS / D-PAD')
+      this.setPrompt(nearResume(this.player) ? 'E · VIEW RÉSUMÉ · WORLD CLOCK' : nearby ? `E / TAP INTERACT  ·  ${nearby.name}` : 'MOVE · WASD / ARROWS / D-PAD · R TO RETURN')
     }
 
     interact() {
@@ -144,6 +173,7 @@ export function createTownScene(onNavigate, onPrompt = () => {}, isPaused = () =
         else this.showMessage('APPROACH A WALL DISPLAY · E TO INSPECT')
         return
       }
+      if (nearResume(this.player)) { onNavigate({ exhibit: resumeExhibit() }); return }
       const nearby = nearbyBuilding(this.player)
       if (nearby) this.enterRoom(nearby.id)
       else this.showMessage('MOVE CLOSER TO A BUILDING DOOR')
@@ -165,10 +195,9 @@ export function createTownScene(onNavigate, onPrompt = () => {}, isPaused = () =
       const right = this.cursors.right.isDown || this.keys.D.isDown || Boolean(virtual.right)
       const up = this.cursors.up.isDown || this.keys.W.isDown || Boolean(virtual.up)
       const down = this.cursors.down.isDown || this.keys.S.isDown || Boolean(virtual.down)
-      const speed = Math.min(delta, 32) * 0.11
-      let dx = 0, dy = 0
-      if (left !== right) { dx = left ? -speed : speed; this.facing = left ? 'left' : 'right' }
-      else if (up !== down) { dy = up ? -speed : speed; this.facing = up ? 'up' : 'down' }
+      const { dx, dy } = movementVector({left,right,up,down},delta,Boolean(this.room))
+      if (dx) this.facing = dx < 0 ? 'left' : 'right'
+      else if (dy) this.facing = dy < 0 ? 'up' : 'down'
       if (dx || dy) {
         const next = this.room ? moveInRoom(this.room,this.player,dx,dy) : movePlayer(this.player, dx, dy)
         const moving = next.x !== this.player.x || next.y !== this.player.y
