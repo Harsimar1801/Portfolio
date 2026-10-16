@@ -1,0 +1,47 @@
+.portfolio-stage { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.portfolio-stage.stage-out { animation: section-out 100ms ease-in both; pointer-events: none; }
+.portfolio-stage.stage-in { animation: section-in 140ms ease-out both; }
+.portfolio-stage .content-section { animation: none; }
+.portfolio-overlay { transition: width 140ms ease-out, height 140ms ease-out; }
+.portfolio-tabs button.active { box-shadow: inset 0 -3px 0 var(--folio-amber); }
+@keyframes section-out { to { opacity: 0; transform: translateY(-4px) scale(.995); } }
+@keyframes section-in { from { opacity: 0; transform: translateY(4px) scale(.995); } to { opacity: 1; transform: none; } }
+.archive-navigation { background: #101b2b; border: 1px solid #4c5269; padding: 10px; gap: 12px; }
+.archive-navigation-summary { min-width: 0; display: grid; gap: 4px; text-align: center; }
+.archive-navigation-summary span { color: #dbbd84; font: 11px monospace; }
+.archive-navigation-summary strong { color: #e3e4e9; font-size: 13px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.archive-navigation-summary small { color: #aeb9c8; font-size: 11px; }
+.archive-navigation button { flex-shrink: 0; font-size: 12px; transition: border-color 120ms; }
+.archive-navigation button:not(:disabled):hover { border-color: #dfbf85; }
+.controls-guide { position: absolute; left: 16px; bottom: calc(100% + 12px); z-index: 5; width: 280px; color: #e2e5df; background: #142538; border: 2px solid #a69ab6; box-shadow: 4px 4px 0 #080f1d; animation: section-in 180ms ease-out; text-align: left; }
+.controls-guide::after { content: ''; position: absolute; left: 18px; bottom: -10px; width: 10px; height: 8px; background: #142538; border-left: 2px solid #a69ab6; border-bottom: 2px solid #a69ab6; }
+.controls-guide > button { display: flex; justify-content: space-between; align-items: center; gap: 14px; width: 100%; min-height: 44px; padding: 10px 12px; color: #e8c687; border: 0; background: transparent; font: bold 12px monospace; }
+.controls-guide.is-collapsed { width: 190px; }
+.controls-guide dl { margin: 0; padding: 0 12px; font: 12px/1.5 'DM Sans', sans-serif; }
+.controls-guide dl > div { display: grid; grid-template-columns: 90px 1fr; gap: 8px; padding: 4px 0; }
+.controls-guide dt { color: #9fcacb; }
+.controls-guide dd { margin: 0; }
+.game-hud-bottom .controls-guide p { text-align: left; border: 0; background: transparent; padding: 10px 12px; font: 12px/1.5 'DM Sans',sans-serif; }
+.guide-mobile { display: none; }
+@media (max-width: 700px) {
+  .archive-navigation { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+  .archive-navigation-summary { grid-row: 1; grid-column: 1 / -1; }
+  .archive-navigation button { font-size: 11px; padding: 8px; }
+}
+@media (pointer: coarse), (max-width: 950px) and (max-height: 500px), (max-width: 620px) {
+  .controls-guide { left: 50%; transform: translateX(-50%); bottom: calc(100% + 170px); width: min(260px, calc(100vw - 32px)); animation: none; }
+  .controls-guide .guide-desktop { display: none; }
+  .guide-mobile { display: block; }
+  .controls-guide.is-collapsed { width: 170px; }
+  .controls-guide > button { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-stage.stage-in, .portfolio-stage.stage-out, .controls-guide { animation: none; }
+  .portfolio-overlay, .archive-navigation button { transition: none; }
+}
+
+.controls-guide #exploration-instructions { max-height: 32dvh; overflow-y: auto; overscroll-behavior: contain; }
+
+@media (pointer: coarse), (max-width: 950px) and (max-height: 500px), (max-width: 620px) {
+  .controls-guide #exploration-instructions { max-height: clamp(36px, calc(100dvh - 340px), 32dvh); }
+}

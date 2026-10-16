@@ -13,6 +13,7 @@ import './styles/portfolio-cat.css'
 import './styles/boot-intro.css'
 import './styles/developer-secret.css'
 import './styles/interiors.css'
+import './styles/navigation-polish.css'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

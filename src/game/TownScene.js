@@ -1,3 +1,5 @@
+import { readSession, saveSession, GAME_KEY } from '../data/visitState.js'
+import { validateTownSnapshot } from './restoreTown.js'
 import Phaser from 'phaser'
 import { BUILDINGS, CRYSTALS, PLAYER_START, WORLD } from './townMap.js'
 import { movePlayer, nearbyBuilding, movementVector, isTextEntry, nearResume } from './movement.js'
@@ -63,6 +65,25 @@ export function createTownScene(onNavigate, onPrompt = () => {}, isPaused = () =
       this.input.keyboard.on('keydown-R', (event) => {
         if (!event.repeat && !event.ctrlKey && !event.metaKey && !event.altKey && !isPaused() && !isTextEntry(event.target) && !isTextEntry(document.activeElement)) this.returnToSpawn()
       })
+      const restored = validateTownSnapshot(readSession(GAME_KEY))
+      if (restored) {
+        this.player = restored.room ? restored.townPosition : restored.player
+        if (restored.room) this.enterRoom(restored.room, true)
+        this.player = restored.player
+        this.facing = restored.facing
+        this.avatar.setPosition(this.player.x, this.player.y)
+        this.drawAvatar()
+        this.refreshPrompt()
+      }
+      const save = () => saveSession(GAME_KEY, { version: 1, room: this.room?.section ?? null, player: this.player, townPosition: this.townPosition, facing: this.facing })
+      const onVisibility = () => { if (document.visibilityState === 'hidden') save() }
+      window.addEventListener('pagehide', save)
+      document.addEventListener('visibilitychange', onVisibility)
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        save()
+        window.removeEventListener('pagehide', save)
+        document.removeEventListener('visibilitychange', onVisibility)
+      })
     }
 
     returnToSpawn() {
@@ -81,8 +102,8 @@ export function createTownScene(onNavigate, onPrompt = () => {}, isPaused = () =
       this.refreshPrompt()
     }
 
-    enterRoom(section) {
-      if (this.room || isPaused()) return
+    enterRoom(section, restoring = false) {
+      if (this.room || (!restoring && isPaused())) return
       this.buildingSprites.forEach(({sprite}) => sprite.clearTint())
       for (const direction of ['up','down','left','right']) getVirtualInput()[direction] = false
       this.townPosition = { ...this.player }

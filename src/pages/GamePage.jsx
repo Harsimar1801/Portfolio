@@ -1,4 +1,8 @@
+import { readSession, saveSession } from '../data/visitState.js'
+import { roomExhibits } from '../game/interiors.js'
+import { resumeExhibit } from '../data/resume.js'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import ControlsGuide from '../components/ControlsGuide.jsx'
 import ExhibitInspection from '../components/ExhibitInspection.jsx'
 import GameCanvas from '../components/GameCanvas.jsx'
 import TouchControls from '../components/TouchControls.jsx'
@@ -10,14 +14,21 @@ import { BUILDINGS, CRYSTALS } from '../game/townMap.js'
 import { playUiTone } from '../game/sound.js'
 import { profile } from '../data/profile.js'
 
-export default function GamePage({ onTitle, onPortfolio, onSection, portfolioOpen, selectedSection, onSelectSection, onClosePortfolio, soundEnabled = false, onToggleSound = () => {}, CanvasComponent = GameCanvas, assistantOpen = false }) {
+export default function GamePage({ selectedProject, onSelectProject, onTitle, onPortfolio, onSection, portfolioOpen, selectedSection, onSelectSection, onClosePortfolio, soundEnabled = false, onToggleSound = () => {}, CanvasComponent = GameCanvas, assistantOpen = false }) {
   const [visited, setVisited] = useState([])
   const [collected, setCollected] = useState([])
   const [prompt, setPrompt] = useState('MOVE · WASD / ARROWS / D-PAD')
   const [activeTool, setActiveTool] = useState(null)
   const [secretOpen, setSecretOpen] = useState(false)
   const [room, setRoom] = useState(null)
-  const [exhibit, setExhibit] = useState(null)
+  const [exhibit, setExhibit] = useState(() => {
+    if (portfolioOpen) return null
+    const saved = readSession('harsimar-exhibit-v1')
+    if (saved?.id === resumeExhibit().id) return resumeExhibit()
+    if (!BUILDINGS.some((building) => building.id === saved?.section)) return null
+    return roomExhibits(saved.section).find((entry) => entry.id === saved.id) ?? null
+  })
+  useEffect(() => { saveSession('harsimar-exhibit-v1', exhibit ? { id: exhibit.id, section: exhibit.section } : null) }, [exhibit])
   const [exitRoomSignal, setExitRoomSignal] = useState(0)
   const closeExhibit = useCallback(() => { setExhibit(null); requestAnimationFrame(() => document.querySelector('.game-canvas')?.focus()) }, [])
   const [interactSignal, setInteractSignal] = useState(0)
@@ -88,12 +99,13 @@ export default function GamePage({ onTitle, onPortfolio, onSection, portfolioOpe
     <TouchControls onDirectionChange={(direction, pressed) => { virtualControls.current[direction] = pressed }} onInteract={() => setInteractSignal((current) => current + 1)} disabled={portfolioOpen || assistantOpen || secretOpen || Boolean(exhibit) || Boolean(activeTool)} />
 
     <div className="game-hud game-hud-bottom">
+      {!portfolioOpen && !assistantOpen && !secretOpen && !exhibit && !activeTool && <ControlsGuide />}
       <div className="game-progress"><span><span aria-hidden="true">◆</span> {collected.length}/{CRYSTALS.length}</span><span>QUEST {visited.length}/{BUILDINGS.length}</span></div>
       <p role="status" aria-live="polite">{prompt}</p>
       <span className="game-hud-controls">WASD / ARROWS TO MOVE</span>
     </div>
 
-    {portfolioOpen && <PortfolioPage activeSection={selectedSection} onSelectSection={onSelectSection} onClose={onClosePortfolio} />}
+    {portfolioOpen && <PortfolioPage selectedProject={selectedProject} onSelectProject={onSelectProject} activeSection={selectedSection} onSelectSection={onSelectSection} onClose={onClosePortfolio} />}
     {exhibit && <ExhibitInspection exhibit={exhibit} onClose={closeExhibit} />}
     <DeveloperSecret blocked={portfolioOpen || assistantOpen || Boolean(room) || Boolean(exhibit) || Boolean(activeTool)} open={secretOpen} onChange={setSecretOpen} />
   </main>

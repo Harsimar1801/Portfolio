@@ -131,7 +131,7 @@ Milo is an original SVG pixel cat with CSS blinking and tail motion, respecting 
 
 `BootIntro.jsx` paints an original 480×270 pixel landscape once, enlarged with nearest-neighbor rendering. CSS handles the scan reveal, stars, mist, meteor and fade; reduced motion disables these effects. It prepares only the existing title SVG, with a clearly labeled cinematic boot bar. The sequence lasts approximately 7 seconds including the 450ms exit; WORLD READY reflects resource readiness independently of the animation. Reduced-motion visitors get a brief 150ms ready state. Optional image failure or a 2.5-second timeout cannot trap visitors. All timers and image handlers are cleaned up under Strict Mode.
 
-Flow: fresh visit → intro → existing title menu → New Game → normal Phaser initialization. Recognized section hashes bypass the intro. Returning to the menu does not replay it. No Phaser scene, world data, audio behavior or title-menu buttons are replaced.
+Flow: a new visit without a restorable URL or session starts with the existing intro and title menu. Refresh restores `#title`, `#town`, section URLs such as `#skills`, and individual archive projects at `#projects/<project-id>`. Section and project navigation retain browser Back/Forward support. The current view, interior/position, and inspected exhibit ID are stored in sessionStorage only; invalid IDs and blocked/out-of-bounds positions fall back safely. Room exhibits are rebuilt from current portfolio data, never saved copies of content. New Game clears the saved town and exhibit and starts at the normal spawn. Audio does not autoplay after restoration. No intro artwork, world geometry, or title menu is replaced.
 
 ### Explorable building interiors
 
