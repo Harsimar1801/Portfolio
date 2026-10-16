@@ -372,6 +372,8 @@ try {
     assert.equal(canvasNode.dataset.paused, 'false', 'Game resumes after closing')
     assert.equal(document.querySelector('.test-canvas'), canvasNode, 'Canvas stays mounted, preserving game position')
   }
+  assert.ok(document.querySelector('.explore-guide-slot .controls-guide'), 'Single guide lives outside the canvas')
+  assert.equal(document.querySelectorAll('.controls-guide').length, 1)
   const musicBeforeMore = document.querySelector('audio')
   await React.act(async () => document.querySelector('[aria-controls="mobile-secondary"]').click())
   assert.equal(document.querySelector('[aria-controls="mobile-secondary"]').getAttribute('aria-expanded'), 'true')

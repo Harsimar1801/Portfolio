@@ -1,3 +1,4 @@
+import { phoneSign } from './townSigns.js'
 import { drawPlayer } from './playerArt.js'
 import { BUILDINGS, FENCES, LANDMARK, RIVER, TREES, WORLD, PATHS, isRoadAt } from './townMap.js'
 
@@ -221,6 +222,12 @@ export function createTownAtlas(scene) {
   })
   for (const b of BUILDINGS) {
     frame(`building-${b.id}`,b.w + 24,b.h + 42,(p) => buildingArt(p,b))
+    const compact = phoneSign(b)
+    frame(`sign-mobile-${b.id}`,compact.width,11,({rect:r,text}) => {
+      r(0,0,compact.width,11,architecture[b.kind].trim)
+      r(1,1,compact.width - 2,9,'#26314a')
+      text(compact.text,3,2,'#fff1d2')
+    })
       // Native 5×7 lettering remains 14 screen pixels tall at desktop 2× zoom.
     frame(`sign-${b.id}`,b.name.length * 6 + 11,16,({rect:r,text}) => {
       const w = b.name.length * 6 + 11
@@ -307,11 +314,13 @@ export function placeTownSigns(scene, signs, insets) {
   const top = view.y + (insets.top + 8) / zoom
   const bottom = view.bottom - (insets.bottom + 8) / zoom
   for (const { building: b, homeX, homeY, sprite } of signs) {
-    sprite.setScale(zoom === 1 ? 2 : 1)
+    const phone = scene.scale.width <= 700
+    sprite.setFrame(`${phone ? 'sign-mobile' : 'sign'}-${b.id}`)
+    sprite.setScale(phone ? 1 : zoom === 1 ? 2 : 1)
     const visible = b.x + b.w > view.x && b.x < view.right && b.y + b.h > top + sprite.height && b.y < bottom
     sprite.setVisible(visible)
     if (!visible) continue
-    const x = Math.max(view.x + 6 / zoom, Math.min(homeX,view.right - sprite.displayWidth - 6 / zoom))
+    const x = Math.max(view.x + 6 / zoom, Math.min(phone ? b.x + (b.w - sprite.displayWidth) / 2 : homeX,view.right - sprite.displayWidth - 6 / zoom))
     let y = Math.max(top,Math.min(homeY,bottom - sprite.displayHeight))
     // Touch controls occupy the lower corners, not the whole width of a phone.
     // Lift only a label that actually intersects one of those controls.

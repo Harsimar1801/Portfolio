@@ -100,10 +100,14 @@ export default function GamePage({ selectedProject, onSelectProject, onTitle, on
     {activeTool === 'map' && <MapPanel onOpenSection={openSection} onClose={() => setActiveTool(null)} />}
     {activeTool === 'inventory' && <InventoryPanel collected={collected} onClose={() => setActiveTool(null)} />}
 
+    <div className="explore-guide-slot">
+      {!portfolioOpen && !assistantOpen && !secretOpen && !exhibit && !activeTool && <ControlsGuide />}
+    </div>
+
     <TouchControls onDirectionChange={(direction, pressed) => { virtualControls.current[direction] = pressed }} onInteract={() => setInteractSignal((current) => current + 1)} disabled={portfolioOpen || assistantOpen || secretOpen || Boolean(exhibit) || Boolean(activeTool)} />
 
     <div className="game-hud game-hud-bottom">
-      {!portfolioOpen && !assistantOpen && !secretOpen && !exhibit && !activeTool && <ControlsGuide />}
+
       <div className="game-progress"><span><span aria-hidden="true">◆</span> {collected.length}/{CRYSTALS.length}</span><span>QUEST {visited.length}/{BUILDINGS.length}</span></div>
       <p role="status" aria-live="polite">{prompt}</p>
       <span className="game-hud-controls">WASD / ARROWS TO MOVE</span>
