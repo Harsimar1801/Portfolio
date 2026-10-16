@@ -9,6 +9,11 @@ import { navigation } from '../data/navigation.js'
 export default function PortfolioPage({ selectedProject, onSelectProject, activeSection, onSelectSection, onClose }) {
   const closeButton = useRef(null)
   const scrollArea = useRef(null)
+  const tabs = useRef(null)
+  useEffect(() => {
+    const tab = tabs.current?.querySelector('[aria-current="page"]')
+    if (tab && tabs.current) tabs.current.scrollLeft = Math.max(0, tab.offsetLeft - tabs.current.offsetLeft - (tabs.current.clientWidth - tab.offsetWidth) / 2)
+  }, [activeSection])
   const [displayedSection, setDisplayedSection] = useState(activeSection)
   const [phase, setPhase] = useState('idle')
   useEffect(() => {
@@ -51,7 +56,7 @@ export default function PortfolioPage({ selectedProject, onSelectProject, active
         <div><span className="portfolio-overline">PLAYER FILE / {profile.education.toUpperCase()}</span><h1 id="portfolio-title">{isArchive ? 'PROJECT ARCHIVE' : section.label}<span>_</span></h1><p>{profile.name} · {profile.role}</p></div>
         <button ref={closeButton} type="button" onClick={onClose} aria-label="Close section and return to town">×</button>
       </header>
-      <nav className="portfolio-tabs" aria-label="Portfolio sections">{navigation.map((item) => <button key={item.id} type="button" className={activeSection === item.id ? 'active' : ''} aria-current={activeSection === item.id ? 'page' : undefined} onClick={() => onSelectSection(item.id)}><span>{item.number}</span>{item.label}</button>)}</nav>
+      <nav ref={tabs} className="portfolio-tabs" aria-label="Portfolio sections">{navigation.map((item) => <button key={item.id} type="button" className={activeSection === item.id ? 'active' : ''} aria-current={activeSection === item.id ? 'page' : undefined} onClick={() => onSelectSection(item.id)}><span>{item.number}</span>{item.label}</button>)}</nav>
       <div className={`portfolio-stage stage-${phase}`} inert={phase === 'out' ? true : undefined}>
       {isArchive ? <ProjectArchive selectedProject={selectedProject} onSelectProject={onSelectProject} projects={projects} keyboardEnabled={phase !== 'out'} /> : <><DialogueBox key={section.id} text={section.dialogue} label={section.label} />
       <div className="portfolio-scroll" ref={scrollArea}>

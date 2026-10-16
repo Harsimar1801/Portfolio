@@ -20,3 +20,5 @@ createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>,
 )
+
+import './styles/mobile-refinement.css'

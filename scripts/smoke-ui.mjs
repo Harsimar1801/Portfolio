@@ -372,6 +372,15 @@ try {
     assert.equal(canvasNode.dataset.paused, 'false', 'Game resumes after closing')
     assert.equal(document.querySelector('.test-canvas'), canvasNode, 'Canvas stays mounted, preserving game position')
   }
+  const musicBeforeMore = document.querySelector('audio')
+  await React.act(async () => document.querySelector('[aria-controls="mobile-secondary"]').click())
+  assert.equal(document.querySelector('[aria-controls="mobile-secondary"]').getAttribute('aria-expanded'), 'true')
+  assert.ok(document.querySelector('#mobile-secondary.is-open'), 'Secondary controls open')
+  assert.equal(canvasNode.dataset.paused, 'true', 'Secondary menu pauses movement')
+  await React.act(async () => window.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })))
+  assert.equal(document.querySelector('#mobile-secondary.is-open'), null, 'Escape closes secondary controls')
+  assert.equal(canvasNode.dataset.paused, 'false', 'Movement resumes')
+  assert.equal(document.querySelector('audio'), musicBeforeMore, 'Collapsing controls retains the audio player')
   assert.equal(mounts, 1, 'Game canvas mounts only once across all panels')
   const { roomExhibits } = await vite.ssrLoadModule('/src/game/interiors.js')
   const inspectionFixtures = [

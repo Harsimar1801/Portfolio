@@ -4,7 +4,7 @@ import { useState } from 'react'
 let minimized = null
 
 export default function ControlsGuide() {
-  const [collapsed, setCollapsed] = useState(() => minimized ?? Boolean(window.matchMedia?.('(pointer: coarse), (max-width: 620px), (max-width: 950px) and (max-height: 500px)').matches))
+  const [collapsed, setCollapsed] = useState(() => minimized ?? Boolean(window.matchMedia?.('(pointer: coarse), (max-width: 700px), (max-width: 950px) and (max-height: 500px)').matches))
   return <aside className={`controls-guide${collapsed ? ' is-collapsed' : ''}`} aria-label="Exploration controls">
     <button type="button" aria-expanded={!collapsed} aria-controls="exploration-instructions"
       onClick={() => { minimized = !collapsed; setCollapsed(minimized) }}>
@@ -19,7 +19,7 @@ export default function ControlsGuide() {
         <div><dt>Return to spawn</dt><dd>R</dd></div>
         <div><dt>Close a panel</dt><dd>Escape</dd></div>
       </dl>
-      <p className="guide-mobile">Move with the D-pad. Tap INTERACT near an entrance or the World Clock. You can also tap a house to enter. Use × to close panels and EXIT ROOM to leave.</p>
+      <p className="guide-mobile">Move with the D-pad or keyboard. Use E or INTERACT near a house entrance or the World Clock (résumé). Tap a house to enter directly. R returns to spawn on keyboard. Use × to close panels and EXIT ROOM to leave.</p>
       <p className="guide-shortcut">Prefer browsing? Use Portfolio / Sections above.</p>
     </div>}
   </aside>
